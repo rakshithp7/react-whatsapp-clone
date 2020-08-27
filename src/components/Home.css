@@ -1,0 +1,30 @@
+.home {
+  flex: 0.7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  background-image: url("https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png");
+}
+
+.home > p {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+.home > a {
+  padding: 15px;
+  margin-top: 30px;
+  border: 1px solid #ffffff;
+  color: black;
+  background-image: linear-gradient(45deg, lightgray 50%, transparent 50%);
+  background-position: 100%;
+  background-size: 400%;
+  -webkit-transition: background 300ms ease-in-out;
+  transition: background 300ms ease-in-out;
+}
+
+.home > a:hover {
+  background-position: 0;
+}
