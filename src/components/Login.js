@@ -30,10 +30,17 @@ const Login = () => {
           alt=""
         />
         <div className="login__text">
-          <h1>Sign in to Whatsapp Clone</h1>
+          <h1>Sign in to WhatsApp Clone</h1>
+          <a
+            target="_blank"
+            rel="noopener noreferrer"
+            href="https://github.com/rakshithp7"
+          >
+            View my GitHub profile
+          </a>
         </div>
 
-        <Button onClick={signIn}>Sign In with Google</Button>
+        <Button onClick={signIn}>Sign in with Google</Button>
       </div>
     </div>
   );

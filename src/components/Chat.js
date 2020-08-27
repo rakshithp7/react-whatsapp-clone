@@ -56,7 +56,7 @@ const Chat = () => {
   const sendMessage = (e) => {
     e.preventDefault();
 
-    if (roomId && input !== "") {
+    if (roomId && /\S/.test(input)) {
       db.collection("rooms").doc(roomId).collection("messages").add({
         message: input,
         name: user.displayName,
@@ -67,6 +67,19 @@ const Chat = () => {
     setInput("");
   };
 
+  const shouldPrintDate = (message) => {
+    var date = new Date(message.timestamp?.toDate());
+
+    var x = messages.find((e) => e === message); // find the message in the array
+    var next_message = messages[messages.indexOf(x) + 1]; // get the next message
+    var date_next = new Date(next_message?.timestamp?.toDate());
+    var isNewDay = date_next.getDate() > date.getDate();
+
+    if (isNewDay) {
+      return <p>{date_next.toDateString()}</p>;
+    }
+  };
+
   return (
     <div className="chat">
       <div className="chat__header">
@@ -74,10 +87,16 @@ const Chat = () => {
         <div className="chat__headerInfo">
           <h2>{roomName}</h2>
           <p>
-            Last message sent at{" "}
-            {new Date(
-              messages[messages.length - 1]?.timestamp?.toDate()
-            ).toUTCString()}
+            {messages.length > 0 ? (
+              <>
+                Last message sent at{" "}
+                {new Date(
+                  messages[messages.length - 1]?.timestamp?.toDate()
+                ).toLocaleString()}
+              </>
+            ) : (
+              <>New chat room</>
+            )}
           </p>
         </div>
         <div className="chat__headerRight">
@@ -94,17 +113,26 @@ const Chat = () => {
       </div>
       <div className="chat__body">
         {messages.map((message) => (
-          <p
-            className={`chat__message ${
-              message.name === user.displayName && "chat__receiver"
-            }`}
-          >
-            <span className="chat__name">{message.name}</span>
-            {message.message}
-            <span className="chat__timestamp">
-              {new Date(message.timestamp?.toDate()).toUTCString()}
-            </span>
-          </p>
+          <>
+            <p
+              className={`chat__message ${
+                message.name === user.displayName && "chat__receiver"
+              }`}
+            >
+              <span className="chat__name">{message.name}</span>
+              {message.message}
+              <span className="chat__timestamp">
+                {new Date(message.timestamp?.toDate()).toLocaleTimeString(
+                  navigator.language,
+                  {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  }
+                )}
+              </span>
+            </p>
+            <div className="chat__newDay">{shouldPrintDate(message)}</div>
+          </>
         ))}
       </div>
       <div className="chat__footer">

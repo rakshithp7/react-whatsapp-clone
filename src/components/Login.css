@@ -11,7 +11,7 @@
   text-align: center;
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  box-shadow: -1px 4px 12px -6px rgba(0, 0, 0, 0.7);
 }
 
 .login__container > img {
@@ -23,6 +23,15 @@
 .login__container > button {
   margin-top: 50px;
   text-transform: inherit !important;
-  background-color: #0a8d48 !important;
-  color: white;
+  border: 1px solid #36d881;
+  color: black;
+  background-image: linear-gradient(45deg, #36d881 50%, transparent 50%);
+  background-position: 100%;
+  background-size: 400%;
+  -webkit-transition: background 300ms ease-in-out;
+  transition: background 300ms ease-in-out;
+}
+
+.login__container > button:hover {
+  background-position: 0;
 }

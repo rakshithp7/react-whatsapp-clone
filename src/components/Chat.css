@@ -1,5 +1,5 @@
 .chat {
-  flex: 0.65;
+  flex: 0.7;
   display: flex;
   flex-direction: column;
 }
@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid lightgray;
+  height: 50px;
 }
 
 .chat__headerInfo {
@@ -58,13 +59,28 @@
 .chat__name {
   position: absolute;
   top: -15px;
-  font-weight: 800;
+  font-weight: 600;
   font-size: x-small;
+  width: max-content;
 }
 
 .chat__timestamp {
   margin-left: 10px;
   font-size: xx-small;
+}
+
+.chat__newDay {
+  display: flex;
+  justify-content: center;
+}
+
+.chat__newDay > p {
+  font-size: 12px;
+  padding: 7px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.5);
+  width: fit-content;
 }
 
 .chat__footer {

@@ -1,13 +1,14 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  flex: 0.35;
+  flex: 0.3;
 }
 
 .sidebar__header {
   display: flex;
   justify-content: space-between;
   padding: 20px;
+  height: 50px;
   border-right: 1px solid lightgray;
 }
 
@@ -36,8 +37,13 @@
 }
 
 .sidebar__searchContainer > input {
+  flex: 1;
   border: none;
-  margin-left: 10px;
+  margin: 0 10px;
+}
+
+.sidebar__searchContainer > input:focus {
+  outline: none;
 }
 
 .sidebar__searchContainer > .MuiSvgIcon-root {

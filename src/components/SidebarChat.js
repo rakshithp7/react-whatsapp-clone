@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import "./SidebarChat.css";
 import { Avatar } from "@material-ui/core";
+import AddIcon from "@material-ui/icons/Add";
 import db from "../firebase";
 
 const SidebarChat = ({ addNewChat, id, name }) => {
@@ -46,7 +47,8 @@ const SidebarChat = ({ addNewChat, id, name }) => {
     </Link>
   ) : (
     <div className="sidebarChat" onClick={createChat}>
-      <h2>Add new Chat</h2>
+      <AddIcon />
+      <h3>Add new Chat</h3>
     </div>
   );
 };
