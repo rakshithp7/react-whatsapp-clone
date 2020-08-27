@@ -89,7 +89,7 @@ const Chat = () => {
           <p>
             {messages.length > 0 ? (
               <>
-                Last message sent at{" "}
+                Last message sent on{" "}
                 {new Date(
                   messages[messages.length - 1]?.timestamp?.toDate()
                 ).toLocaleString()}
