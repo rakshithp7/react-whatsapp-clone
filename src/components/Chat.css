@@ -58,6 +58,7 @@
 
 .chat__body {
   padding: 30px;
+  overflow-x: hidden;
 }
 
 .chat__message {
@@ -78,6 +79,7 @@
 .chat__name {
   position: absolute;
   top: -15px;
+  left: 0;
   font-weight: 600;
   font-size: x-small;
   width: max-content;

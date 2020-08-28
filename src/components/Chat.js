@@ -33,7 +33,8 @@ const Chat = () => {
         .doc(roomId)
         .onSnapshot((snapshot) => setRoomName(snapshot.data().name));
 
-      db.collection("rooms")
+      var unsubscribe = db
+        .collection("rooms")
         .doc(roomId)
         .collection("messages")
         .orderBy("timestamp", "asc")
@@ -41,7 +42,37 @@ const Chat = () => {
           setMessages(snapshot.docs.map((doc) => doc.data()))
         );
     }
+
+    return () => {
+      unsubscribe();
+    };
   }, [roomId]);
+
+  // Chat body functions
+
+  const shouldPrintDate = (message) => {
+    var date = new Date(message.timestamp?.toDate());
+
+    var x = messages.find((e) => e === message); // find the message in the array
+    var next_message = messages[messages.indexOf(x) + 1]; // get the next message
+    var date_next = new Date(next_message?.timestamp?.toDate());
+    var isNewDay = date_next.getDate() > date.getDate();
+
+    if (isNewDay) {
+      return <p>{date_next.toDateString()}</p>;
+    }
+  };
+
+  // Chat footer functions
+
+  const showEmojiPicker = () => {
+    setShowEmojis(!showEmojis);
+  };
+
+  const addEmoji = (e) => {
+    let emoji = e.native;
+    setInput(input + emoji);
+  };
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -57,26 +88,8 @@ const Chat = () => {
     setInput("");
   };
 
-  const showEmojiPicker = () => {
-    setShowEmojis(!showEmojis);
-  };
-
-  const addEmoji = (e) => {
-    let emoji = e.native;
-    setInput(input + emoji);
-  };
-
-  const shouldPrintDate = (message) => {
-    var date = new Date(message.timestamp?.toDate());
-
-    var x = messages.find((e) => e === message); // find the message in the array
-    var next_message = messages[messages.indexOf(x) + 1]; // get the next message
-    var date_next = new Date(next_message?.timestamp?.toDate());
-    var isNewDay = date_next.getDate() > date.getDate();
-
-    if (isNewDay) {
-      return <p>{date_next.toDateString()}</p>;
-    }
+  const recordAudio = () => {
+    console.log("recording audio");
   };
 
   return (
@@ -171,7 +184,7 @@ const Chat = () => {
             Send a message
           </button>
         </form>
-        <Mic />
+        <Mic onClick={recordAudio} />
       </div>
     </div>
   );
