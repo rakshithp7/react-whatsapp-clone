@@ -104,10 +104,22 @@
 
 .chat__footer {
   display: flex;
+  position: relative;
   justify-content: space-between;
   align-items: center;
   height: 62px;
   border-top: 1px solid lightgray;
+}
+
+.chat__emojiPicker {
+  position: absolute;
+  display: none;
+  bottom: 62px;
+  left: 0;
+}
+
+.chat__emojiPickerShow {
+  display: block;
 }
 
 .chat__footer > .MuiSvgIcon-root {

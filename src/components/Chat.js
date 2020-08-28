@@ -10,6 +10,8 @@ import {
   Mic,
 } from "@material-ui/icons";
 import ScrollToBottom from "react-scroll-to-bottom";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
 import db from "../firebase";
 import { useStateValue } from "../StateProvider";
 import firebase from "firebase";
@@ -17,6 +19,7 @@ import firebase from "firebase";
 const Chat = () => {
   const [seed, setSeed] = useState("");
   const [input, setInput] = useState("");
+  const [showEmojis, setShowEmojis] = useState(false);
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
   const [{ user }] = useStateValue();
@@ -52,6 +55,15 @@ const Chat = () => {
     }
 
     setInput("");
+  };
+
+  const showEmojiPicker = () => {
+    setShowEmojis(!showEmojis);
+  };
+
+  const addEmoji = (e) => {
+    let emoji = e.native;
+    setInput(input + emoji);
   };
 
   const shouldPrintDate = (message) => {
@@ -134,7 +146,20 @@ const Chat = () => {
         </div>
       </ScrollToBottom>
       <div className="chat__footer">
-        <InsertEmoticon />
+        <IconButton onClick={showEmojiPicker}>
+          <InsertEmoticon />
+        </IconButton>
+        <span
+          className={`chat__emojiPicker ${
+            showEmojis && "chat__emojiPickerShow"
+          }`}
+        >
+          <Picker
+            onSelect={addEmoji}
+            emojiTooltip={true}
+            title="Add an emoji"
+          />
+        </span>
         <form>
           <input
             placeholder="Type a message"
