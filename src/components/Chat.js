@@ -8,6 +8,7 @@ import {
   AttachFile,
   InsertEmoticon,
   Mic,
+  ExpandMore,
 } from "@material-ui/icons";
 import db from "../firebase";
 import { useStateValue } from "../StateProvider";
@@ -51,6 +52,12 @@ const Chat = () => {
     if (shouldScroll) {
       chat.scrollTop = chat.scrollHeight;
     }
+  };
+
+  const scrollToBottom = () => {
+    var chat = document.getElementsByClassName("chat__body")[0];
+
+    chat.scrollTop = chat.scrollHeight;
   };
 
   const sendMessage = (e) => {
@@ -140,6 +147,9 @@ const Chat = () => {
             <div className="chat__newDay">{shouldPrintDate(message)}</div>
           </>
         ))}
+        <button className="chat__float" onClick={scrollToBottom}>
+          <ExpandMore />
+        </button>
       </div>
       <div className="chat__footer">
         <InsertEmoticon />
