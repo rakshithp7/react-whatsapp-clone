@@ -8,8 +8,8 @@ import {
   AttachFile,
   InsertEmoticon,
   Mic,
-  ExpandMore,
 } from "@material-ui/icons";
+import ScrollToBottom from "react-scroll-to-bottom";
 import db from "../firebase";
 import { useStateValue } from "../StateProvider";
 import firebase from "firebase";
@@ -39,26 +39,6 @@ const Chat = () => {
         );
     }
   }, [roomId]);
-
-  useEffect(() => {
-    getChatHeight();
-  }, [messages]);
-
-  const getChatHeight = () => {
-    var chat = document.getElementsByClassName("chat__body")[0];
-    let shouldScroll =
-      chat.scrollTop + chat.clientHeight + 150 >= chat.scrollHeight;
-
-    if (shouldScroll) {
-      chat.scrollTop = chat.scrollHeight;
-    }
-  };
-
-  const scrollToBottom = () => {
-    var chat = document.getElementsByClassName("chat__body")[0];
-
-    chat.scrollTop = chat.scrollHeight;
-  };
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -124,33 +104,35 @@ const Chat = () => {
           </IconButton>
         </div>
       </div>
-      <div className="chat__body">
-        {messages.map((message) => (
-          <>
-            <p
-              className={`chat__message ${
-                message.name === user.displayName && "chat__receiver"
-              }`}
-            >
-              <span className="chat__name">{message.name}</span>
-              {message.message}
-              <span className="chat__timestamp">
-                {new Date(message.timestamp?.toDate()).toLocaleTimeString(
-                  navigator.language,
-                  {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  }
-                )}
-              </span>
-            </p>
-            <div className="chat__newDay">{shouldPrintDate(message)}</div>
-          </>
-        ))}
-        <button className="chat__float" onClick={scrollToBottom}>
-          <ExpandMore />
-        </button>
-      </div>
+      <ScrollToBottom
+        className="chat__bodyContainer "
+        followButtonClassName="chat__scrollButton"
+      >
+        <div className="chat__body">
+          {messages.map((message) => (
+            <>
+              <p
+                className={`chat__message ${
+                  message.name === user.displayName && "chat__receiver"
+                }`}
+              >
+                <span className="chat__name">{message.name}</span>
+                {message.message}
+                <span className="chat__timestamp">
+                  {new Date(message.timestamp?.toDate()).toLocaleTimeString(
+                    navigator.language,
+                    {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    }
+                  )}
+                </span>
+              </p>
+              <div className="chat__newDay">{shouldPrintDate(message)}</div>
+            </>
+          ))}
+        </div>
+      </ScrollToBottom>
       <div className="chat__footer">
         <InsertEmoticon />
         <form>
