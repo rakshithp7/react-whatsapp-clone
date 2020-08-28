@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import "./Chat.css";
 import { Avatar, IconButton } from "@material-ui/core";
@@ -17,6 +17,7 @@ import db from "../firebase";
 import { useStateValue } from "../StateProvider";
 import { startRecording } from "../audio-record";
 import firebase from "firebase";
+import { firebaseApp } from "../firebase";
 
 const Chat = () => {
   const [seed, setSeed] = useState("");
@@ -27,6 +28,7 @@ const Chat = () => {
   const [recordAudio, setRecordAudio] = useState(true);
   const [{ user }] = useStateValue();
   const { roomId } = useParams();
+  const uploadRef = useRef(null);
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
@@ -50,6 +52,21 @@ const Chat = () => {
       unsubscribe();
     };
   }, [roomId]);
+
+  // Chat header function
+
+  const handleImageUpload = (e) => {
+    if (e.target.files.length > 0) {
+      let file = e.target.files[0];
+      const storageRef = firebaseApp.storage().ref();
+      const fileRef = storageRef.child(`images/${file.name}`);
+      fileRef.put(file).then(() => {
+        alert(
+          "Uploaded image! Still working on implementation of images in chat. :)"
+        );
+      });
+    }
+  };
 
   // Chat body functions
 
@@ -127,7 +144,15 @@ const Chat = () => {
           <IconButton>
             <SearchOutlined />
           </IconButton>
-          <IconButton>
+          <input
+            id="myInput"
+            type="file"
+            accept="image/*"
+            ref={uploadRef}
+            style={{ display: "none" }}
+            onChange={(e) => handleImageUpload(e)}
+          />
+          <IconButton onClick={(e) => uploadRef.current.click()}>
             <AttachFile />
           </IconButton>
           <IconButton>
