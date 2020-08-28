@@ -8,12 +8,14 @@ import {
   AttachFile,
   InsertEmoticon,
   Mic,
+  Stop,
 } from "@material-ui/icons";
 import ScrollToBottom from "react-scroll-to-bottom";
 import "emoji-mart/css/emoji-mart.css";
 import { Picker } from "emoji-mart";
 import db from "../firebase";
 import { useStateValue } from "../StateProvider";
+import { startRecording } from "../audio-record";
 import firebase from "firebase";
 
 const Chat = () => {
@@ -22,6 +24,7 @@ const Chat = () => {
   const [showEmojis, setShowEmojis] = useState(false);
   const [roomName, setRoomName] = useState("");
   const [messages, setMessages] = useState([]);
+  const [recordAudio, setRecordAudio] = useState(true);
   const [{ user }] = useStateValue();
   const { roomId } = useParams();
 
@@ -88,8 +91,11 @@ const Chat = () => {
     setInput("");
   };
 
-  const recordAudio = () => {
-    console.log("recording audio");
+  const recordVoiceNote = () => {
+    if (recordAudio) {
+      startRecording();
+    }
+    setRecordAudio(!recordAudio);
   };
 
   return (
@@ -184,7 +190,16 @@ const Chat = () => {
             Send a message
           </button>
         </form>
-        <Mic onClick={recordAudio} />
+
+        {!recordAudio ? (
+          <IconButton id="btnStop" onClick={recordVoiceNote}>
+            <Stop />
+          </IconButton>
+        ) : (
+          <IconButton onClick={recordVoiceNote}>
+            <Mic />
+          </IconButton>
+        )}
       </div>
     </div>
   );
